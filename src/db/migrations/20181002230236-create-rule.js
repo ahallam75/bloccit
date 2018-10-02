@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
+      source: {
         type: Sequelize.STRING
       },
       description: {
@@ -21,15 +21,6 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      topicId: {
-        type: Sequelize.INTEGER,
-        onDelete: "CASCADE",
-        references: {
-          model: "Topics",
-          key: "id",
-          as: "topicId",
-        },
       }
     });
   },
