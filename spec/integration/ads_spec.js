@@ -57,7 +57,7 @@ describe("routes : ads", () => {
         const options = {
             url: `${base}create`,
             form: {
-                title: "beatles songs",
+                title: "Beatles' song",
                 description: "What's your favorite Beatles' song?"
             }
         };
@@ -67,11 +67,11 @@ describe("routes : ads", () => {
             request.post(options,
 
                 (err, res, body) => {
-                    Ads.findOne({ where: { title: "beatles' song" } })
+                    Ads.findOne({ where: { title: "Beatles' song" } })
                         .then((ad) => {
                             expect(res.statusCode).toBe(303);
-                            expect(ad.title).toBe("beatles' song");
-                            expect(ad.description).toBe("What's your favorite Beatle's song?");
+                            expect(ad.title).toBe("Beatles' song");
+                            expect(ad.description).toBe("What's your favorite Beatles' song?");
                             done();
                         })
                         .catch((err) => {
