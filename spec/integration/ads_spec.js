@@ -70,8 +70,8 @@ describe("routes : ads", () => {
                     Ads.findOne({ where: { title: "beatles' song" } })
                         .then((ad) => {
                             expect(res.statusCode).toBe(303);
-                            expect(ads.title).toBe("beatles' song");
-                            expect(ads.description).toBe("What's your favorite Beatle's song?");
+                            expect(ad.title).toBe("beatles' song");
+                            expect(ad.description).toBe("What's your favorite Beatle's song?");
                             done();
                         })
                         .catch((err) => {

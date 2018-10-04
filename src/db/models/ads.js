@@ -1,4 +1,4 @@
-'use strict';
+/*'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Ads = sequelize.define('Ads', {
     source: DataTypes.STRING,
@@ -19,6 +19,17 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "topicId",
       onDelete: "CASCADE",
     });
+  };
+  return Ads;
+};*/
+
+'use strict';
+module.exports = (sequelize, DataTypes) => {
+  var Ads = sequelize.define('Ads', {
+    title: DataTypes.STRING
+  }, {});
+  Ads.associate = function(models) {
+    // associations can be defined here
   };
   return Ads;
 };
