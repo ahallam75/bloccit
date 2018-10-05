@@ -83,7 +83,7 @@ describe("Post", () => {
       });
 
     });
-/*
+
     describe("#setTopic()", () => {
 
       it("should associate a topic and a post together", (done) => {
@@ -123,5 +123,5 @@ describe("Post", () => {
       });
 
     });
-*/
+    
 });
