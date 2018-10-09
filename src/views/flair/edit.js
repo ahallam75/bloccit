@@ -10,14 +10,14 @@
 
       <h1>Edit Flair</h1>
 
-      <form action="/topics/<%= flair.topicId %>/flair/<%= flair.id %>/update" method="post">
+      <form action="/topics/<%= flair.topicId %>/posts/<%= flair.postId %>/flairs/<%= flair.id %>/update" method="post">
         <div class="form-group">
-          <label for="title">Flair Name</label>
-          <input value="<%= flair.name %>" type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Name">
+          <label for="title">Post title</label>
+          <input value="<%= flair.name %>" type="text" class="form-control" name="name" aria-describedby="titleHelp" placeholder="Enter Name">
         </div>
         <div class="form-group">
-          <label for="body">Color</label>
-          <textarea rows="4" class="form-control" name="body" placeholder="Enter Color"><%= flair.color %></textarea>
+          <label for="color">Flair Color</label>
+          <input type="text" class="form-control" name="body" placeholder="Enter Color"><%= flair.color %></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Update</button>
       </form>

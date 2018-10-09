@@ -1,9 +1,11 @@
 const flairQueries = require("../db/queries.flair.js");
 
 module.exports = {
+  
   new(req, res, next){
   res.render("flair/new", {topicId: req.params.topicId});
-},
+  },
+
   create(req, res, next){
     let newFlair= {
       name: req.body.name,

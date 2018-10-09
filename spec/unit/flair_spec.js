@@ -16,8 +16,8 @@ describe("Flair", () => {
       .then((topic) => {
         this.topic = topic;
         Flair.create({
-          name: "Blue Flair",
-          color: "Blue",
+          name: "Awesome Flair",
+          color: "Bright Blue",
           topicId: this.topic.id
         })
         .then((flair) => {
@@ -54,7 +54,7 @@ describe("Flair", () => {
 
       it("should not create a flair object with missing name, color, or assigned topic", (done) => {
         Flair.create({
-          name: "Important Topic"
+          name: "Blue Flair"
         })
         .then((post) => {
           done();
