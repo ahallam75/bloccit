@@ -6,8 +6,8 @@ module.exports = {
 },
   create(req, res, next){
     let newFlair= {
-      name: req.body.title,
-      color: req.body.body,
+      name: req.body.name,
+      color: req.body.color,
       topicId: req.params.topicId
     };
     flairQueries.addFlair(newFlair, (err, post) => {

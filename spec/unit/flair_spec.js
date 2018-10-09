@@ -16,8 +16,8 @@ describe("Flair", () => {
       .then((topic) => {
         this.topic = topic;
         Flair.create({
-          name: "Popular Post",
-          color: "Green",
+          name: "Blue Flair",
+          color: "Blue",
           topicId: this.topic.id
         })
         .then((flair) => {
@@ -37,13 +37,13 @@ describe("Flair", () => {
 
       it("should create a flair object with a name, color, and assigned topic", (done) => {
         Flair.create({
-          name: "Important Topic",
-          color: "Red",
+          name: "Flair Topic",
+          color: "Yellow",
           topicId: this.topic.id
         })
         .then((flair) => {
-          expect(flair.name).toBe("Important Topic");
-          expect(flair.color).toBe("Red");
+          expect(flair.name).toBe("Flair Topic");
+          expect(flair.color).toBe("Yellow");
           done();
         })
         .catch((err) => {
