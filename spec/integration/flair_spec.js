@@ -86,7 +86,7 @@ describe("POST /topics/:topicId/flair/create", () => {
 describe("GET /topics/:topicId/flair/:id", () => {
 
   it("should render a view with the selected flair", (done) => {
-    request.get(`${base}/${this.topic.id}/posts/${this.flair.id}`, (err, res, body) => {
+    request.get(`${base}/${this.topic.id}/flair/${this.flair.id}`, (err, res, body) => {
       expect(err).toBeNull();
       expect(body).toContain("Blue Flair");
       done();
