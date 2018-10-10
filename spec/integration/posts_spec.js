@@ -14,7 +14,6 @@ describe("routes : posts", () => {
 
     sequelize.sync({force: true}).then((res) => {
 
-//#1
       Topic.create({
         title: "Winter Games",
         description: "Post your Winter Games stories."
@@ -72,6 +71,30 @@ describe("routes : posts", () => {
              expect(post.body).toBe("Without a doubt my favoriting things to do besides watching paint dry!");
              expect(post.topicId).not.toBeNull();
              done();
+           })
+           .catch((err) => {
+             console.log(err);
+             done();
+           });
+         }
+       );
+     });
+
+     it("should not create a new post that fails validations", (done) => {
+       const options = {
+         url: `${base}/${this.topic.id}/posts/create`,
+         form: {
+           title: "a",
+           body: "b"
+         }
+       };
+
+       request.post(options,
+         (err, res, body) => {
+           Post.findOne({where: {title: "a"}})
+           .then((post) => {
+               expect(post).toBeNull();
+               done();
            })
            .catch((err) => {
              console.log(err);
