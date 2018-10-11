@@ -53,11 +53,10 @@ module.exports = {
     flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
       if(err || flair == null){
         console.log(err);
-        res.redirect(404, `/flair/${req.params.id}/edit`);
+        res.redirect(404, `/topics/${req.params.topicId}/flair/${req.params.id}/edit`);
       } else {
         console.log('hello');
-        //res.redirect(`/flair/${req.params.id}`);
-        res.redirect(`/flair/${flair.id}`);
+        res.redirect(`/topics/${req.params.topicId}/flair/${req.params.id}`);
       }
     });
   }
