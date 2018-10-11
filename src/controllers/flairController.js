@@ -1,25 +1,20 @@
 const flairQueries = require("../db/queries.flair.js");
 
 module.exports = {
-  
-  new(req, res, next){ 
-    res.render("flair/new", {topicId: req.params.topicId, postId: req.params.postId}); 
-  },
-
+  new(req, res, next){
+  res.render("flair/new", {topicId: req.params.topicId});
+},
   create(req, res, next){
     let newFlair= {
       name: req.body.name,
       color: req.body.color,
-      topicId: req.params.topicId,
-      postId: req.params.postId
+      topicId: req.params.topicId
     };
-    flairQueries.addFlair(newFlair, (err, post) => {
+    flairQueries.addFlair(newFlair, (err, flair) => {
       if(err){
-        console.log(err);
         res.redirect(500, "/flair/new");
       } else {
-        console.log('hello');
-        res.redirect(303, `/topics/${newFlair.topicId}/posts/${newFlair.postId}/flairs/${flair.id}`);
+        res.redirect(303, `/topics/${newFlair.topicId}/flair/${flair.id}`);
       }
     });
   },
@@ -57,9 +52,12 @@ module.exports = {
   update(req, res, next){
     flairQueries.updateFlair(req.params.id, req.body, (err, flair) => {
       if(err || flair == null){
-        res.redirect(404, `/topics/${req.params.topicId}/flair/${req.params.id}/edit`);
+        console.log(err);
+        res.redirect(404, `/flair/${req.params.id}/edit`);
       } else {
-        res.redirect(`/topics/${req.params.topicId}/flair/${req.params.id}`);
+        console.log('hello');
+        //res.redirect(`/flair/${req.params.id}`);
+        res.redirect(`/flair/${flair.id}`);
       }
     });
   }
