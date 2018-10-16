@@ -168,7 +168,7 @@ describe("routes : topics", () => {
             where: {id:1}
           })
           .then((topic) => {
-            expect(topic.title).toBe("JS Frameworks");
+            expect(topic.title).toBe("JavaScript Frameworks"); //("JS Frameworks");
             done();
           });
         });
