@@ -22,7 +22,9 @@ module.exports = {
         })
   },
   deletePost(req, callback) {
-    return Post.findById(req.params.id)
+    console.log(req); // Added while figuring out error. Can be removed. 
+    return Post.findById(req.params.id) 
+    
         .then((post) => {
           const authorized = new Authorizer(req.user, post).destroy();
             if(authorized) {
