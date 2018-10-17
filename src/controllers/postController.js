@@ -48,15 +48,20 @@ module.exports = {
         });
     },
 
-    destroy(req, res, next){
-        postQueries.deletePost(req.params.id, (err, deletedRecordsCount) => {
-            if(err){
-                res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`)
-            } else {
-                res.redirect(303, `/topics/${req.params.topicId}`)
-            }
-        });
-    },
+    destroy(req, res, next){ 
+        console.log("Destroying a post...");
+        console.log(req);
+        postQueries.deletePost(req, (err, deletedRecordsCount) => { 
+          console.log("Finished destroy post query");
+          if(err){ 
+            console.log("There was an error");
+            res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`) 
+          } else { 
+            console.log("There was no error");
+            res.redirect(303, `/topics/${req.params.topicId}`) 
+          } 
+        }); 
+      }, 
 
     edit(req, res, next){
         postQueries.getPost(req.params.id, (err, post) => {

@@ -22,7 +22,7 @@ module.exports = {
         })
   },
   deletePost(req, callback) {
-    console.log(req); // Added while figuring out error. Can be removed. 
+    //console.log(req); // Added while figuring out error. Can be removed. 
     return Post.findById(req.params.id) 
     
         .then((post) => {

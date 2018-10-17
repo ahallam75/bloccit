@@ -240,14 +240,19 @@ describe("routes : posts", () => {
           const postCountBeforeDelete = posts.length;
 
           expect(postCountBeforeDelete).toBe(1);
+          console.log("one"); // remove
 
           request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
+            console.log(res);
             Post.all()
+            console.log("two") //remove
             .then((post) => {
               expect(post.length).toBe(postCountBeforeDelete);
+              console.log("three"); // remove
               done();
             })
           });
+          
         });
     });
 
