@@ -1,3 +1,4 @@
+
 const request = require("request");
 const server = require("../../src/server");
 const base = "http://localhost:3000/topics";
@@ -233,28 +234,59 @@ describe("routes : posts", () => {
         });
     });
 
-    describe("POST /topics/topicId/posts/:id/destroy", () => {
+    //The commented out code below is the original destroy. Below that is the updated, but still not working, destroy. 
+
+   /* describe("POST /topics/topicId/posts/:id/destroy", () => {
       it("should not delete the post with the associated Id", (done) => {
         Post.all()
         .then((posts) => {
           const postCountBeforeDelete = posts.length;
 
           expect(postCountBeforeDelete).toBe(1);
-          console.log("one"); // remove
 
           request.post(`${base}/${this.topic.id}/posts/${this.post.id}/destroy`, (err, res, body) => {
             console.log(res);
             Post.all()
-            console.log("two") //remove
             .then((post) => {
               expect(post.length).toBe(postCountBeforeDelete);
-              console.log("three"); // remove
               done();
             })
           });
           
         });
     });
+  }); */
+
+  
+  describe("POST /topics/topicId/posts/:id/destroy", () => {
+    it("should not delete the post with the associated Id", (done) => {
+
+      const options = { 
+            url: `${base}/${this.topic.id}/posts/${this.post.id}/destroy`, 
+            userId: 4
+      };
+       Post.all()
+           .then((posts) => {
+               const postCountBeforeDelete = posts.length;
+
+               expect(postCountBeforeDelete).toBe(1);
+               //console.log("one"); // remove
+
+                request.post(options, (err, res, body) => {
+                   //console.log(res);
+                   Post.all()
+                   //console.log("two") //remove
+                       .then((post) => {
+                           expect(post.length).toBe(postCountBeforeDelete);
+                           //console.log("three"); // remove
+                           done();
+                       })
+               });
+
+           });
+   });
+  });
+
 
     describe("POST /topics/topicId/posts/:id/edit", () => {
       it("should not render a view of the edit post form", (done) => {
@@ -407,7 +439,8 @@ describe("routes : posts", () => {
             const options = {
               url: `${base}/${this.topic.id}/posts/${this.post.id}/update`,
               form: {
-                title: "Snowman Building Competition"
+                title: "Snowman Building Competition",
+                body: "I love watching them melt so slowly." // This solved previous issue, but doesn't seem to work this time. 
               }
             };
             request.post(options,
@@ -426,4 +459,3 @@ describe("routes : posts", () => {
           });
         });
       }); 
-});

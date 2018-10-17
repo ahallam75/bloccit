@@ -50,11 +50,11 @@ module.exports = {
 
     destroy(req, res, next){ 
         console.log("Destroying a post...");
-        console.log(req);
         postQueries.deletePost(req, (err, deletedRecordsCount) => { 
           console.log("Finished destroy post query");
           if(err){ 
-            console.log("There was an error");
+            console.log("There was an error:");
+            console.log(err);
             res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`) 
           } else { 
             console.log("There was no error");
