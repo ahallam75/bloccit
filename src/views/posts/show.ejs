@@ -9,7 +9,7 @@
     <main class="container">
       <% include ../static/partials/messages.ejs %>
       <h1><%= post.title %></h1>
-      <% if(currentUser) { %>
+      <% if (currentUser && (currentUser.role == "admin")) { %>
         <a href="/topics/<%= post.topicId %>/posts/<%= post.id %>/edit" class="btn btn-warning">Edit</a>
         <form style="display:initial" action="/topics/<%= post.topicId %>/posts/<%= post.id %>/destroy" method="post">
           <input type="hidden" name="_method" value="PUT"> 

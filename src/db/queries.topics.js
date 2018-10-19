@@ -10,6 +10,7 @@ module.exports = {
       callback(null, topics);
     })
     .catch((err) => {
+      console.log(err);
       callback(err);
     })
   },
