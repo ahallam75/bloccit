@@ -48,12 +48,10 @@ module.exports = {
         });
     },
 
-    destroy(req, res, next){ 
-        console.log("Destroying a post...");
+    destroy(req, res, next){
+        const authorized = new Authorizer(req.user).destroy(); 
         postQueries.deletePost(req, (err, deletedRecordsCount) => { 
-          console.log("Finished destroy post query");
           if(err){ 
-            console.log("There was an error:");
             console.log(err);
             res.redirect(500, `/topics/${req.params.topicId}/posts/${req.params.id}`) 
           } else { 
@@ -82,6 +80,7 @@ module.exports = {
     },
 
     update(req, res, next) {
+        const authorized = new Authorizer(req.user).update();
         postQueries.updatePost(req, req.body, (err, post) => {
             if (err || post == null) {
                 res.redirect(404, `/topics/${req.params.topicId}/posts/${req.params.id}/edit`);
