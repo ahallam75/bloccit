@@ -18,15 +18,14 @@
       <% } %>
       <p><%= post.body %></p>
       <section id="comment-form">
-
           <!-- #1 -->
              <% if(currentUser) { %>
                <% include ../comments/new.ejs %>
              <% } %>
-            </section>
+      </section>
          
           <!-- #2 -->
-            <section id="comment-list">
+      <section id="comment-list">
              <% if(post.comments) { %>
                <% post.comments.forEach((comment) => { %>
          
@@ -34,7 +33,7 @@
                  <%- include("../comments/show.ejs", {comment}) %>
                <% }) %>
              <% } %>
-            </section>
+      </section>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
