@@ -208,6 +208,41 @@ describe("routes : comments", () => {
             })
    
           });
+
+          it("should not delete another user's comment", (done) => {
+            User.create({
+                email: "bob@example.com",
+                password: "password"
+            })
+            .then((user) => {
+                expect(user.email).toBe("bob@example.com");
+                expect(user.id).toBe(3);
+                request.get({
+                    url: "http://localhost:3000/auth/fake",
+                    form: {
+                        role: "member",
+                        userId: user.id
+                    }
+                }, (err, res, body) => {
+                    done();
+                });
+                Comment.all()
+                .then((comments) => {
+                    const commentCountBeforeDelete = comments.length;
+                    expect(commentCountBeforeDelete).toBe(1);
+                    request.post(
+                        `${base}${this.topic.id}/posts/${this.post.id}/comments/${this.comment.id}/destroy`,
+                            (err, res, body) => {
+                                Comment.all() 
+                                .then((comments) => {
+                                    expect(err).toBeNull();
+                                    expect(comments.length).toBe(commentCountBeforeDelete);
+                                    done();
+                                })
+                    });
+                });
+            });
+          });
    
         });
 
