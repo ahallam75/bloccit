@@ -136,6 +136,21 @@ describe("Vote", () => {
  
           })
         });
+
+        it("should not create a vote with a value other than 1 or -1", (done) => {
+          Vote.create({
+            value: 2,
+            postId: this.post.id,
+            userId: this.user.id
+          })
+          .then((vote) => {
+            done();
+          })
+          .catch((err) => {
+            expect(err.message).toContain("Validation isIn on value failed");
+            done();
+          });
+        });
  
       });
 
@@ -262,6 +277,120 @@ describe("#getPost()", () => {
 
   });
 
-   });
+});
+
+describe("#getPoints()", () => {
+     
+  it("should return all the points for the associated post", (done) => {
+
+    Vote.create({
+      value: 1, 
+      postId: this.post.id,
+      userId: this.user.id
+    })
+    .then((vote) => {
+      this.vote = vote;
+
+      Post.create({
+        title: "What is the temperature like on Proxima Centauri b",
+        body: "The temperature is nice this time of year.",
+        userId: this.user.id,
+        topicId: this.topic.id        
+      })
+      .then((newPost) => {
+        expect(this.vote.postId).toBe(this.post.id);
+        expect(newPost.id).toBe(2);
+
+        this.vote.setPost(newPost)
+        .then((vote) => {
+          expect(vote.postId).toBe(newPost.id);
+          expect(newPost.getPoints()).toBe(0);
+          done();
+        });
+      });
+    })
+
+  });
+
+ });
+
+ describe("#hasUpvoteFor()", () => {
+  
+  it("should return true if the user with the associated userId has an upvote for the post", (done) => {
+    
+    Vote.create({
+      value: 1, 
+      postId: this.post.id,
+      userId: this.user.id
+    })
+    .then((vote) => {
+      this.vote = vote;
+
+      Post.create({
+        title: "I love maple syrup do you?",
+        body: "I love maple syrup!",
+        userId: this.user.id,
+        topicId: this.topic.id        
+      })
+      .then((newPost) => {
+        expect(this.vote.postId).toBe(this.post.id);
+        expect(newPost.id).toBe(2);
+
+        this.vote.setPost(newPost)
+        .then((vote) => {
+          expect(vote.postId).toBe(newPost.id);
+          expect(this.vote.userId).toBe(newPost.userId);
+          newPost.hasUpvoteFor(newPost.userId)
+          .then((votes) => {
+            expect(votes.length).toBe(1); // There is a vote object from hasUpvoteFor call
+            done();
+          })
+        });
+      });
+    })
+
+  });
+
+ });
+
+ describe("#hasDownvoteFor()", () => {
+  
+  it("should return true if the user with the associated userId has an downvote for the post", (done) => {
+    
+    Vote.create({
+      value: -1, 
+      postId: this.post.id,
+      userId: this.user.id
+    })
+    .then((vote) => {
+      this.vote = vote;
+
+      Post.create({
+        title: "I love maple syrup do you?",
+        body: "I love maple syrup!",
+        userId: this.user.id,
+        topicId: this.topic.id        
+      })
+      .then((newPost) => {
+        expect(this.vote.postId).toBe(this.post.id);
+        expect(newPost.id).toBe(2);
+
+        this.vote.setPost(newPost)
+        .then((vote) => {
+          expect(vote.postId).toBe(newPost.id);
+          expect(this.vote.userId).toBe(newPost.userId);
+          newPost.hasDownvoteFor(newPost.userId)
+          .then((votes) => {
+            expect(votes.length).toBe(1); // There is a vote object from hasDownvoteFor call
+            done();
+          })
+        });
+      });
+    })
+
+  });
+
+ });
+
 
 });

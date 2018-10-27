@@ -40,16 +40,32 @@ module.exports = (sequelize, DataTypes) => {
   Post.prototype.isOwner = function() {
     return this.userId === this.foreignKey;
   }
-  Post.prototype.getPoints = function() {
+  Post.prototype.getPoints = function(){
+    if (!this.votes || this.votes.length === 0) return 0;
 
-    // #1
-        if(this.votes.length === 0) return 0
-   
-    // #2
-        return this.votes
-          .map((v) => { return v.value })
-          .reduce((prev, next) => { return prev + next });
+    return this.votes
+      .map((v) => { return v.value })
+      .reduce((prev, next) => { return prev + next });
   };
-   
+  Post.prototype.hasUpvoteFor = function(userId){
+
+    return this.getVotes({
+      where: {
+        userId: userId,
+        value: 1
+      }
+    })
+
+  };
+  Post.prototype.hasDownvoteFor = function(userId){
+
+    return this.getVotes({
+      where: {
+        userId: userId,
+        value: -1
+      }
+    })
+    
+  };
   return Post;
 };
