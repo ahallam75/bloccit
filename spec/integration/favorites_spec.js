@@ -117,11 +117,8 @@ describe("routes : favorites", () => {
           role: "member",     // mock authenticate as member user
           userId: this.user.id
         }
-      },
-        (err, res, body) => {
-          done();
-        }
-      );
+      });
+      done();
     });
 
     describe("POST /topics/:topicId/posts/:postId/favorites/create", () => {
