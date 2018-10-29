@@ -25,35 +25,63 @@ module.exports = {
     })
   },
 
-  getUser(id, callback){
-    // #1
-       let result = {};
-       User.findById(id)
-       .then((user) => {
-    // #2
-         if(!user) {
-           callback(404);
-         } else {
-    // #3
-           result["user"] = user;
-    // #4
-           Post.scope({method: ["lastFiveFor", id]}).all()
-           .then((posts) => {
-    // #5
-             result["posts"] = posts;
-    // #6
-             Comment.scope({method: ["lastFiveFor", id]}).all()
-             .then((comments) => {
-    // #7
-               result["comments"] = comments;
-               callback(null, result);
-             })
-             .catch((err) => {
-               callback(err);
-             })
-           })
-         }
-       })
+  
+  getUser(id, callback) {
+    let result = {};
 
-  }
-}  
+    User.findById(id)
+      .then((user) => {
+        if (!user) {
+          callback(404);
+        } else {
+            result["user"] = user;
+
+            Post.scope({
+                method: ["lastFiveFor", id]
+              }).all()
+              .then((posts) => {
+                result["posts"] = posts;
+
+                Comment.scope({
+                    method: ["lastFiveFor", id]
+                  }).all()
+                  .then((comments) => {
+                    result["comments"] = comments;
+
+                    User.scope({
+                        method: ["getFavoritedPosts", id]
+                      }).all()
+                      .then((favorites) => {
+                        let userFavorites = JSON.parse(JSON.stringify(favorites));
+                        let favoritePostsId = [];
+
+                        userFavorites[0].favorites.forEach((favorite) => {
+                          favoritePostsId.push(favorite.postId);
+                        });
+
+                        var allFavorites = [];
+                        Post.findAll()
+                          .then((allPosts) => {
+                            allPosts.forEach((thisPost) => {
+                              if (favoritePostsId.includes(thisPost.id)) {
+                                allFavorites.push({
+                                  id: thisPost.id,
+                                  title: thisPost.title,
+                                  topicId: thisPost.topicId
+                                });
+                              }
+                            })
+
+                            result["allFavorites"] = allFavorites;
+                            callback(null, result);
+                          })
+                  })
+          })
+          .catch((err) => {
+            callback(err);
+          })
+        })
+      }
+    })
+  },
+}
